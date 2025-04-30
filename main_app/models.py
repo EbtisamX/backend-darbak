@@ -21,3 +21,4 @@ class JobApplication(models.Model):
 
     def str(self):
         return f"{self.job_title} at {self.company_name}"
+    

@@ -2,9 +2,28 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import JobApplication
 from .serializers import JobApplicationSerializer
+from django.shortcuts import get_object_or_404
+
 
 class JobApplicationListCreate(APIView):
-    def get(self, request):
+    def get(self, request): #get all jobs application
         jobs = JobApplication.objects.all()
         serializer = JobApplicationSerializer(jobs, many=True)
+        return Response(serializer.data, status=200)
+    
+    def post(self, request): #add new job application
+        serializer = JobApplicationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+    
+#This class handle update and delete for single job
+class JobApplicationDetailView(APIView):
+    def get_object(self, pk):
+        return get_object_or_404(JobApplication, pk=pk)
+
+    def get(self, request, pk):
+        job = self.get_object(pk)
+        serializer = JobApplicationSerializer(job)
         return Response(serializer.data, status=200)

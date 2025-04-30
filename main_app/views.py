@@ -27,3 +27,16 @@ class JobApplicationDetailView(APIView):
         job = self.get_object(pk)
         serializer = JobApplicationSerializer(job)
         return Response(serializer.data, status=200)
+    
+    def delete(self, request, pk): # get and delete the job
+        job = self.get_object(pk)
+        job.delete()
+        return Response(status=204)
+
+    def patch(self, request, pk): # Get the job to update
+        job = self.get_object(pk)
+        serializer = JobApplicationSerializer(job, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)

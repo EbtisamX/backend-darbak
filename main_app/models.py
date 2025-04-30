@@ -19,6 +19,6 @@ class JobApplication(models.Model):
         default='waiting'
     )
 
-    def str(self):
+    def __str__(self):
         return f"{self.job_title} at {self.company_name}"
     

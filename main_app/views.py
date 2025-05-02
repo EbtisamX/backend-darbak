@@ -72,3 +72,8 @@ class NoteDetailView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
     
+    def delete(self, request, pk):
+        note = self.get_object(pk)
+        note.delete()
+        return Response(status=204)
+    

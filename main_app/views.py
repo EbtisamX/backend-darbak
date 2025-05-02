@@ -59,4 +59,8 @@ class NoteDetailView(APIView):
     def get_object(self, pk):
         return get_object_or_404(Note, pk=pk)
     
+    def get(self, request, pk):
+        note = self.get_object(pk)
+        serializer = NoteSerializer(note)
+        return Response(serializer.data, status=200)
     

@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import JobApplication
-from .serializers import JobApplicationSerializer
+from .models import JobApplication,Note
+from .serializers import JobApplicationSerializer,NoteSerializer
 from django.shortcuts import get_object_or_404
 
 
@@ -40,3 +40,10 @@ class JobApplicationDetailView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
+    
+class NoteListCreate(APIView):
+    def get(self, request):
+        notes = Note.objects.all()
+        serializer = NoteSerializer(notes, many=True)
+        return Response(serializer.data, status=200)
+    

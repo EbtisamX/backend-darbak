@@ -64,3 +64,11 @@ class NoteDetailView(APIView):
         serializer = NoteSerializer(note)
         return Response(serializer.data, status=200)
     
+    def patch(self, request, pk):
+        note = self.get_object(pk)
+        serializer = NoteSerializer(note, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    

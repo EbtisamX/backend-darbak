@@ -1,7 +1,6 @@
 from django.db import models
 
 # Create your models here.
-
 APPLICATION_STATUS_CHOICES = (
     ('waiting', 'Waiting'),
     ('interview', 'Interview Scheduled'),
@@ -22,7 +21,6 @@ class JobApplication(models.Model):
     def __str__(self):
         return f"{self.job_title} at {self.company_name}"
 
-    
 class Note(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -31,4 +29,11 @@ class Note(models.Model):
 
     def __str__(self):
         return f"Note for {self.job.job_title} - {self.created_at.date()}"
-    
+
+
+class Skill(models.Model):
+    name = models.CharField(max_length=100)
+    job = models.ForeignKey(JobApplication, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name

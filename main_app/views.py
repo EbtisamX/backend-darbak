@@ -66,7 +66,7 @@ class NoteDetailView(APIView):
     
     def patch(self, request, pk):
         note = self.get_object(pk)
-        serializer = NoteSerializer(note, data=request.data)
+        serializer = NoteSerializer(note, data=request.data,partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

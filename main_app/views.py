@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import JobApplication,Note
-from .serializers import JobApplicationSerializer,NoteSerializer
+from .models import JobApplication,Note,Skill
+from .serializers import JobApplicationSerializer,NoteSerializer,SkillSerializer
 from django.shortcuts import get_object_or_404
 
 
@@ -76,4 +76,12 @@ class NoteDetailView(APIView):
         note = self.get_object(pk)
         note.delete()
         return Response(status=204)
+    
+    
+class SkillListCreateView(APIView):
+    def get(self, request):
+        skills = Skill.objects.all()
+        serializer = SkillSerializer(skills, many=True)
+        return Response(serializer.data, status=200)
+
     

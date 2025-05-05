@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 APPLICATION_STATUS_CHOICES = (
@@ -17,6 +18,8 @@ class JobApplication(models.Model):
         choices=APPLICATION_STATUS_CHOICES,
         default='waiting'
     )
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.job_title} at {self.company_name}"

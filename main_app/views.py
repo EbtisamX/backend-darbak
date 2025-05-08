@@ -22,7 +22,7 @@ class JobApplicationListCreate(APIView):
     def post(self, request):
         serializer = JobApplicationSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save()  # user تم إضافته داخل السيريلزر
+            serializer.save()  
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     
@@ -54,10 +54,12 @@ class JobApplicationDetailView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
-    
+
 class NoteListCreate(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        notes = Note.objects.all()
+        notes = Note.objects.filter(job__user=request.user)
         serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data, status=200)
     
@@ -69,32 +71,38 @@ class NoteListCreate(APIView):
         return Response(serializer.errors, status=400)
     
     
+
 class NoteDetailView(APIView):
-    def get_object(self, pk):
-        return get_object_or_404(Note, pk=pk)
-    
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, pk, user):
+        note = get_object_or_404(Note, pk=pk)
+        if note.job.user != user:
+            raise PermissionDenied("You do not have permission to access this note.")
+        return note
+
     def get(self, request, pk):
-        note = self.get_object(pk)
+        note = self.get_object(pk, request.user)
         serializer = NoteSerializer(note)
         return Response(serializer.data, status=200)
     
     def patch(self, request, pk):
-        note = self.get_object(pk)
-        serializer = NoteSerializer(note, data=request.data,partial=True)
+        note = self.get_object(pk, request.user)
+        serializer = NoteSerializer(note, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
     
     def delete(self, request, pk):
-        note = self.get_object(pk)
+        note = self.get_object(pk, request.user)
         note.delete()
         return Response(status=204)
     
-    
 class SkillListCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
-        skills = Skill.objects.all()
+        skills = Skill.objects.filter(job__user=request.user)
         serializer = SkillSerializer(skills, many=True)
         return Response(serializer.data, status=200)
     def post(self, request):

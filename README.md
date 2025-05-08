@@ -34,7 +34,7 @@ This repository contains the backend source code of the application, built using
 ### Tools & Services
 - **PostgreSQL** – Relational database used for storing application data
 ## ERD Diagram
-![a picture of a ER diagram](assets/ERD.jpg)
+![a picture of a ER diagram](main_app/assets/ERD.jpg)
 
 ## Frontend Repository
 You can find the frontend code here: [Frontend Repository Link](

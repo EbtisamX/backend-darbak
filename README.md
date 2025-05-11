@@ -31,6 +31,8 @@ This repository contains the backend source code of the application, built using
 - **psycopg2-binary** – PostgreSQL database adapter for Python
 - **django-cors-headers** – Manages Cross-Origin Resource Sharing (CORS)
 
+
+
 ### Tools & Services
 - **PostgreSQL** – Relational database used for storing application data
 ## ERD Diagram
@@ -38,7 +40,7 @@ This repository contains the backend source code of the application, built using
 
 ## Frontend Repository
 You can find the frontend code here: [Frontend Repository Link](
-    https://git.generalassemb.ly/ebtisam010/front-darbak
+    https://github.com/EbtisamX/frontend-darbak.git
 )
 ## RESTful Routing Table for both Client and Server
 
@@ -80,4 +82,5 @@ You can find the frontend code here: [Frontend Repository Link](
 - Job search and filtering
 - Reminders for scheduled interviews
 - Upload resume for each job
-- Color labels for job statuses
+
+
